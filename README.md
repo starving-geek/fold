@@ -27,8 +27,8 @@ val x = fold ((fn (x,y) => x+y), 0, foo)
             fold ((fn (x,y) => x + (if y <= lo orelse y >= hi then 1 else 0)), 0, xs)
 
 (* how many things in the list are not between lo and hi *)
-    fun myFold (xs, lo, hi) =
-            fold ((fn (x,y) => x + (if y < lo orelse y > hi then 1 else 0)), 0, xs)
+        fun myFold (xs, lo, hi) =
+                fold ((fn (x,y) => x + (if y < lo orelse y > hi then 1 else 0)), 0, xs)
 ---
 ### Example
     val myList = [...]    <------ list with [3, 9] random numbers [0, 9]
@@ -42,25 +42,25 @@ val x = fold ((fn (x,y) => x+y), 0, foo)
 ---
 ### String
 
-* all strings have less than l characters *)
-    fun myFold (xs, l) =
-            fold((fn (x,y) => x andalso String.size y < l), true, xs)
+    (* all strings have less than l characters *)
+        fun myFold (xs, l) =
+                fold((fn (x,y) => x andalso String.size y < l), true, xs)
 
-(* all strings have less than l characters *)
-    fun myFold (xs, l) =
-            fold((fn (x,y) => x andalso String.size y <= l), true, xs)
+    (* all strings have less than l characters *)
+        fun myFold (xs, l) =
+                fold((fn (x,y) => x andalso String.size y <= l), true, xs)
 
-(* all strings have more than l characters *)
-    fun myFold (xs, l) =
-            fold((fn (x,y) => x andalso String.size y > l), true, xs)
+    (* all strings have more than l characters *)
+        fun myFold (xs, l) =
+                fold((fn (x,y) => x andalso String.size y > l), true, xs)
 
-(* all strings have more than l characters *)
-    fun myFold (xs, l) =
-            fold((fn (x,y) => x andalso String.size y >= l), true, xs)
+    (* all strings have more than l characters *)
+        fun myFold (xs, l) =
+                fold((fn (x,y) => x andalso String.size y >= l), true, xs)
 
-(* all strings have exactly l characters *)
-    fun myFold (xs, l) =
-            fold((fn (x,y) => x andalso String.size y = l), true, xs)
+    (* all strings have exactly l characters *)
+        fun myFold (xs, l) =
+                fold((fn (x,y) => x andalso String.size y = l), true, xs)
 ---
 ### Example
     val wordList = ["soup", "dog", "orange", "park", "cat", "helps", "talks", "castle", "genius", "flaming"]  
