@@ -6,13 +6,11 @@
              []    => acc
             | x::xs' => fold (f, f(acc,x), xs')
 
----
+### Integers
 val myList = [...]    <------ list with [3, 9] random numbers [0, 9]
 
 val x = fold ((fn (x,y) => x+y), 0, foo)
 
----
-### Integers
 
 (* how many things in the list are between lo and hi *)
     fun myFold (xs, lo, hi) =
