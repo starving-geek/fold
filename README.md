@@ -7,25 +7,25 @@
             | x::xs' => fold (f, f(acc,x), xs')
 
 ### Integers
-val myList = [...]    <------ list with [3, 9] random numbers [0, 9]
+    val myList = [...]    <------ list with [3, 9] random numbers [0, 9]
 
-val x = fold ((fn (x,y) => x+y), 0, foo)
+    val x = fold ((fn (x,y) => x+y), 0, foo)
 
 
-(* how many things in the list are between lo and hi *)
-    fun myFold (xs, lo, hi) =
-            fold ((fn (x,y) => x + (if y >= lo andalso y <= hi then 1 else 0)), 0, xs)
-
-(* how many things in the list are between lo and hi *)
-    fun myFold (xs, lo, hi) =
-            fold ((fn (x,y) => x + (if y > lo andalso y < hi then 1 else 0)), 0, xs)
-
-(* how many things in the list are not between lo and hi *)
-    fun myFold (xs, lo, hi) =
-            fold ((fn (x,y) => x + (if y <= lo orelse y >= hi then 1 else 0)), 0, xs)
-
-(* how many things in the list are not between lo and hi *)
+    (* how many things in the list are between lo and hi *)
         fun myFold (xs, lo, hi) =
+                fold ((fn (x,y) => x + (if y >= lo andalso y <= hi then 1 else 0)), 0, xs)
+
+    (* how many things in the list are between lo and hi *)
+        fun myFold (xs, lo, hi) =
+                fold ((fn (x,y) => x + (if y > lo andalso y < hi then 1 else 0)), 0, xs)
+
+    (* how many things in the list are not between lo and hi *)
+        fun myFold (xs, lo, hi) =
+                fold ((fn (x,y) => x + (if y <= lo orelse y >= hi then 1 else 0)), 0, xs)
+
+    (* how many things in the list are not between lo and hi *)
+            fun myFold (xs, lo, hi) =
                 fold ((fn (x,y) => x + (if y < lo orelse y > hi then 1 else 0)), 0, xs)
 
 ### Example
