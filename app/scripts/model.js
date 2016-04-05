@@ -15,20 +15,30 @@
 
 /*
  * Tyler Deans
- * March 17, 2016
+ * April 4, 2016
  */
 function emptyOutArray(myArray) {
     myArray.length = 0;
 }
 
 
+var randNum;
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
+    if (randNum == null) {
+       return Math.floor(Math.random() * (max - min)) + min;
+    } else{
+        number = Math.floor(Math.random() * (max - min)) + min;
+        while(randNum === number) {
+            number = Math.floor(Math.random() * (max - min)) + min;
+        }
 
+        return number;
+    }
+
+}
 
 /*
  * The GraphModel consists of an array of nodes and an array
