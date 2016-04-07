@@ -220,8 +220,50 @@ function getStringAnswer(list, len, logicOp) {
     return accumulator;
 }
 
-function getBooleanAnswer(list, ) {
+function isNumLessThan(num, l) {
+    return num < l;
+}
 
+function isNumLessThanEqual(num, l) {
+    return num <= l;
+}
+
+function isNumGreaterThan(num, l) {
+    return num > l;
+}
+
+function isNumGreaterThanEqual(num, l) {
+    return num >= l;
+}
+
+function isNumEqual(num, l) {
+    return num == l;
+}
+
+function getBooleanAnswer(list, xVal, logicOp) {
+    var accumulator = 0;
+
+    for (var i = 0; i < list.length; i++) {
+        if (logicOp === "<") {
+            if (isNumLessThan(list[i], len)) {
+                accumulator++;
+            }
+        } else if (logicOp === "<=") {
+            if (isNumLessThanEqual(list[i], len)) {
+                accumulator++;
+            }
+        } else if (logicOp === ">") {
+            if (isNumGreaterThan(list[i], len)) {
+                accumulator++;
+            }
+        } else {
+            if (isNumGreaterThanEqual(list[i], len)) {
+                accumulator++;
+            }
+        }
+    }
+
+    return accumulator;
 }
 
 /*
@@ -306,6 +348,7 @@ FoldModel.prototype.evalFoldExpression = function() {
             }
         }
         this.foldExpression += "val x = myFold (myList, " + xVal + ")</pre>";
+        return getBooleanAnswer(numList, xVal, logicOp);
     }
 
 }
