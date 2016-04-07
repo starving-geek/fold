@@ -40,7 +40,7 @@
         fun myFold (xs, l) =
                 fold((fn (x,y) => x andalso String.size y < l), true, xs)
 
-    (* all strings have less than l characters *)
+    (* all strings have less than or equal to l characters *)
         fun myFold (xs, l) =
                 fold((fn (x,y) => x andalso String.size y <= l), true, xs)
 
@@ -48,7 +48,7 @@
         fun myFold (xs, l) =
                 fold((fn (x,y) => x andalso String.size y > l), true, xs)
 
-    (* all strings have more than l characters *)
+    (* all strings have more than or equal to l characters *)
         fun myFold (xs, l) =
                 fold((fn (x,y) => x andalso String.size y >= l), true, xs)
 
@@ -88,3 +88,4 @@
             fold((fn (x,y) => x andalso y >= l), true, xs)
 
     val x = myFold (myList, <x>)  <--- number from 3 to 6
+

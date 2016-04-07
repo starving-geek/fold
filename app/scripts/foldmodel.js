@@ -1,6 +1,6 @@
 /*
  * Tyler Deans
- * March 28, 2016
+ * April 7, 2016
  */
 
 
@@ -67,7 +67,7 @@ function stringListGenerator() {
  * certain symbols are generated based on the type of question
  * if the question type is string then
 */
-function getFirstLogicSymbol(questionType) {
+function getLogicSymbol(questionType) {
 
     if (questionType === "string") {
         var num = getRandomInt(1, 6);
@@ -82,7 +82,7 @@ function getFirstLogicSymbol(questionType) {
         } else {
             return "=";
         }
-    } else{ // boolean or integer
+    } else { // boolean or integer
         var num = getRandomInt(1, 5);
         if (num == 1) {
             return ">=";
@@ -97,42 +97,135 @@ function getFirstLogicSymbol(questionType) {
 }
 
 /*
- * this function is used if there are two logical operators used
+ * this function is used if there are two logical operators used (integer question)
  * it returns the second logical operator (type string) based on the first operator
 */
-function getSecondOperator(firstOperator) {
-
-}
-
-function getMathAnswer(operator, list, yVal) {
-    if (operator === "+") {
-        for (var i = 0; i < list.length; i++) {
-            list[i] = list[i] + yVal;
-        }
+function getSecondSymbol(firstOperator) {
+    if (firstOperator === ">=") {
+        return "<=";
+    } else if (firstOperator === ">") {
+        return "<";
+    } else if (firstOperator === "<=") {
+        return ">=";
     } else {
-        for (var i = 0; i < list.length; i++) {
-            list[i] = list[i] * yVal;
+        return ">";
+    }
+}
+
+function isNumInRangeEqual(num, loVal, hiVal) {
+    if (num >= loVal && num <= hiVal) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isNumInRange(num, loVal, hiVal) {
+    if (num > loVal && num < hiVal) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isNumNotInRangeEqual(num, loVal, hiVal) {
+    if (num <= loVal && num >= hiVal) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isNumNotInRange(num, loVal, hiVal) {
+    if (num < loVal && num > hiVal) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getIntegerAnswer(list, loVal, hiVal, op1, op2) {
+    var accumulator = 0;
+    for (var i = 0; i < list.length; i++) {
+
+        if (op1 === ">=" && op2 === "<=") {
+            if (isNumInRangeEqual(list[i], loVal, hiVal)) {
+                accumulator++;
+            }
+        } else if (op1 === ">" && op2 === "<") {
+            if (isNumInRange(list[i], loVal, hiVal)) {
+                accumulator++;
+            }
+        } else if (op1 === "<=" && op2 === ">=") {
+            if (isNumNotInRangeEqual(list[i], loVal, hiVal)) {
+                accumulator++;
+            }
+        } else {
+            if (isNumNotInRange(list[i], loVal, hiVal)) {
+                accumulator++;
+            }
         }
     }
 
-    return list;
+    return accumulator;
 }
 
-function getStringAnswer(list) {
-    var stringSizeList = [];
+function isStrLessThan(str, len) {
+    return str.length < len;
+}
+
+function isStrLessThanEqual(str, len) {
+    return str.length <= len;
+}
+
+function isStrGreaterThan(str, len) {
+    return str.length > len;
+}
+
+function isStrGreaterThanEqual(str,len) {
+    return str.length >= len;
+}
+
+function isStrEqual(str, len) {
+    return str.length == len;
+}
+
+function getStringAnswer(list, len, logicOp) {
+    var accumulator = 0;
+
     for (var i = 0; i < list.length; i++) {
-        stringSizeList.push(list[i].length);
+        if (logicOp === "<") {
+            if (isStrLessThan(list[i], len)) {
+                accumulator++;
+            }
+        } else if (logicOp === "<=") {
+            if (isStrLessThanEqual(list[i], len)) {
+                accumulator++;
+            }
+        } else if (logicOp === ">") {
+            if (isStrGreaterThan(list[i], len)) {
+                accumulator++;
+            }
+        } else if (logicOp === ">=") {
+            if (isStrGreaterThanEqual(list[i], len)) {
+                accumulator++;
+            }
+        } else {
+            if (isStrEqual(list[i], len)) {
+                accumulator++;
+            }
+        }
     }
 
-    return stringSizeList;
+    return accumulator;
 }
 
-function getBooleanAnswer() {
+function getBooleanAnswer(list, ) {
 
 }
 
 /*
- *
+ * Creates a string representation of the fold method
 */
 function getFoldFucntionString() {
     var mapString = "fun map (f,xs) =\n";
@@ -142,6 +235,10 @@ function getFoldFucntionString() {
     return mapString;
 }
 
+/*
+ * Generates the code snippet which will bw displayed on the web page
+ * Also calculates the answer to the question based on the question type
+*/
 FoldModel.prototype.evalFoldExpression = function() {
     this.foldExpression = "<pre>" + getFoldFucntionString();
     var questionType = getQuestionType();
@@ -150,10 +247,12 @@ FoldModel.prototype.evalFoldExpression = function() {
         var numList = numberListGenerator();
         var xVal = getRandomInt(0, 5);
         var yVal = getRandomInt(5, 10);
+        var logicOp1 = getLogicSymbol(questionType);
+        var logicOp2 = getSecondSymbol(logicOp1);
 
         this.foldExpression += "fun myFold (xs, lo, hi) =\n";
         // create a random generator for the logical symbol
-        this.foldExpression += "    fold ((fn (x,y) => x + (if y >= lo andalso y <= hi then 1 else 0)), 0, xs)\n";
+        this.foldExpression += "    fold ((fn (x,y) => x + (if y " + logicOp1 + " lo andalso y " + logicOp2 + " hi then 1 else 0)), 0, xs)\n";
         this.foldExpression += "val myList = [";
 
         for (var i = 0; i < numList.length; i++) {
@@ -167,11 +266,15 @@ FoldModel.prototype.evalFoldExpression = function() {
         //this.foldExpression += "]\n";
         this.foldExpression += "val x = myFold (myList, " + xVal + ", " +  yVal + ")</pre>";
 
-    } else if (questionType === "string"){
+        return getIntegerAnswer(numList, xVal, yVal);
+
+    } else if (questionType === "string") {
         var strList = stringListGenerator();
         var xVal = getRandomInt(3, 7);
+        var logicOp = getLogicSymbol(questionType);
+
         this.foldExpression += "fun myFold (xs, l) =\n";
-        this.foldExpression += "    fold((fn (x,y) => x andalso String.size y < l), true, xs)\n";
+        this.foldExpression += "    fold((fn (x,y) => x andalso String.size y " + logicOp + " l), true, xs)\n";
         this.foldExpression += "val myList = [";
 
         for (var i = 0; i < strList.length; i++) {
@@ -183,12 +286,15 @@ FoldModel.prototype.evalFoldExpression = function() {
             }
         }
         this.foldExpression += "val x = myFold (myWordList, " + xVal + ")</pre>";
+        return getStringAnswer(strList, xVal, logicOp);
 
     } else { // boolean question
         var numList = numberListGenerator();
         var xVal = getRandomInt(3, 7);
+        var logicOp = getLogicSymbol(questionType);
+
         this.foldExpression += "fun myFold (xs, l) =\n";
-        this.foldExpression += "    fold((fn (x,y) => x andalso y < l), true, xs)\n";
+        this.foldExpression += "    fold((fn (x,y) => x andalso y "+ logicOp + " l), true, xs)\n";
         this.foldExpression += "val myList = [";
 
         for (var i = 0; i < numList.length; i++) {
