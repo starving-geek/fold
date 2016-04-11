@@ -198,31 +198,31 @@ function getStringAnswer(list, len, logicOp) {
             if (isStrLessThan(list[i], len)) {
                 logicVal = true;
             } else {
-                logicVal = false;
+                return false;
             }
         } else if (logicOp === "<=") {
             if (isStrLessThanEqual(list[i], len)) {
                 logicVal = true;
             } else {
-                logicVal = false;
+                return false;
             }
         } else if (logicOp === ">") {
             if (isStrGreaterThan(list[i], len)) {
                 logicVal = true;
             } else {
-                logicVal = false;
+                return false;
             }
         } else if (logicOp === ">=") {
             if (isStrGreaterThanEqual(list[i], len)) {
                 logicVal = true;
             } else {
-                logicVal = false;
+                return false;
             }
         } else {
             if (isStrEqual(list[i], len)) {
                 logicVal = true;
             } else {
-                logicVal = false;
+                return false;
             }
         }
     }
@@ -341,12 +341,12 @@ FoldModel.prototype.evalFoldExpression = function() {
         for (var i = 0; i < strList.length; i++) {
             // if it is the last element print the string without the comma
             if (i == (strList.length - 1)) {
-                this.foldExpression += strList[i] + "]\n";
+                this.foldExpression += '\"' + strList[i] + '\"' + "]\n";
             } else { // otherwise print the string with the comma
-                this.foldExpression += strList[i] + ', ';
+                this.foldExpression += '\"' + strList[i] + '\"' + ', ';
             }
         }
-        this.foldExpression += "val x = myFold (myWordList, " + xVal + ")</pre>";
+        this.foldExpression += "val x = myFold (myList, " + xVal + ")</pre>";
         return getStringAnswer(strList, xVal, logicOp);
 
     } else { // boolean question

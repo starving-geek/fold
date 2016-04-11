@@ -73,12 +73,27 @@ QuestionBankModel.prototype.masteryAchieved = function() {
 QuestionBankModel.prototype.checkAnswer = function(studentAnswer) {
     if (studentAnswer == "") {
         return false;
-    }
-    for (var i = 0; i < this.answers.length; i++) {
-        if (this.answers[i] == studentAnswer) {
-            return true;
+    } else if (studentAnswer === "true" || studentAnswer === "false") {
+        if (studentAnswer === "true") {
+            var studentAnswerBool = (studentAnswer === 'true');
+        } else {
+            var studentAnswerBool = !(studentAnswer === 'false');
+        }
+
+        for (var i = 0; i < this.answers.length; i++)   {
+            if (this.answers[i] == studentAnswerBool) {
+                return true;
+            }
+        }
+
+    } else {
+        for (var i = 0; i < this.answers.length; i++) {
+            if (this.answers[i] == studentAnswer) {
+                return true;
+            }
         }
     }
+
 
     return false;
 }
