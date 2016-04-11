@@ -15,7 +15,7 @@
 
 /*
  * Tyler Deans
- * April 4, 2016
+ * April 8, 2016
  */
 function emptyOutArray(myArray) {
     myArray.length = 0;
@@ -74,7 +74,7 @@ SimModel.prototype = new pipit.CapiAdapter.CapiModel;
 
 
 SimModel.prototype.initializeModel = function() {
-    this.mapExpression = new MapModel(this);
+    this.foldExpression = new FoldModel(this);
     // the question bank stores the questions, the answers and the student's
     // answer history
     this.questionBank = new QuestionBankModel(this, this.get('numerator'),

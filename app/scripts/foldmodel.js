@@ -1,6 +1,6 @@
 /*
  * Tyler Deans
- * April 7, 2016
+ * April 8, 2016
  */
 
 
@@ -33,7 +33,7 @@ function getNumOfElements() {
 function numberListGenerator(numElements) {
     var list = [];
     for (var i = 0; i < numElements; i++) {
-        list[i] = getRandomInt(0, 10); // the element will be number between 0 and 9
+        list[i] = getRandomInt(0, 10); // the element will be a number between 0 and 9
     }
     return list;
 }
@@ -240,25 +240,34 @@ function isNumEqual(num, l) {
     return num == l;
 }
 
-function getBooleanAnswer(list, xVal, logicOp) {
+function getBooleanAnswer(list, len, logicOp) {
     var accumulator = 0;
 
     for (var i = 0; i < list.length; i++) {
         if (logicOp === "<") {
             if (isNumLessThan(list[i], len)) {
                 accumulator++;
+            } else {
+                accumulator += 0;
             }
+
         } else if (logicOp === "<=") {
             if (isNumLessThanEqual(list[i], len)) {
                 accumulator++;
+            } else {
+                accumulator += 0;
             }
         } else if (logicOp === ">") {
             if (isNumGreaterThan(list[i], len)) {
                 accumulator++;
+            } else {
+                accumulator += 0;
             }
         } else {
             if (isNumGreaterThanEqual(list[i], len)) {
                 accumulator++;
+            } else {
+                accumulator += 0;
             }
         }
     }
@@ -269,12 +278,12 @@ function getBooleanAnswer(list, xVal, logicOp) {
 /*
  * Creates a string representation of the fold method
 */
-function getFoldFucntionString() {
-    var mapString = "fun map (f,xs) =\n";
-    mapString += "     case xs of\n";
-    mapString += "         [] => []\n";
-    mapString += "     | first::rest => (f first)::(map(f, rest))\n";
-    return mapString;
+function getFoldFunctionString() {
+    var foldString = "fun fold (f,acc,xs) =\n";
+    foldString += "     case xs of\n";
+    foldString += "         [] => acc\n";
+    foldString += "     | x::xs' => fold (f, f(acc,x), xs')\n";
+    return foldString;
 }
 
 /*
@@ -282,11 +291,11 @@ function getFoldFucntionString() {
  * Also calculates the answer to the question based on the question type
 */
 FoldModel.prototype.evalFoldExpression = function() {
-    this.foldExpression = "<pre>" + getFoldFucntionString();
+    this.foldExpression = "<pre>" + getFoldFunctionString() + "\n";
     var questionType = getQuestionType();
 
     if (questionType === "integer") {
-        var numList = numberListGenerator();
+        var numList = numberListGenerator(6);
         var xVal = getRandomInt(0, 5);
         var yVal = getRandomInt(5, 10);
         var logicOp1 = getLogicSymbol(questionType);
@@ -294,18 +303,18 @@ FoldModel.prototype.evalFoldExpression = function() {
 
         this.foldExpression += "fun myFold (xs, lo, hi) =\n";
         // create a random generator for the logical symbol
-        this.foldExpression += "    fold ((fn (x,y) => x + (if y " + logicOp1 + " lo andalso y " + logicOp2 + " hi then 1 else 0)), 0, xs)\n";
+        this.foldExpression += "    fold ((fn (x,y) => x + (if y " + logicOp1 + " lo andalso y " + logicOp2 + " hi then 1 else 0)), 0, xs)\n\n";
         this.foldExpression += "val myList = [";
 
         for (var i = 0; i < numList.length; i++) {
             // if it is the last element print the string without the comma
             if (i == (numList.length - 1)) {
-                this.foldExpression += numList[i] + "]\n";
+                this.foldExpression += numList[i] //+ "]\n";
             } else { // otherwise print the string with the comma
                 this.foldExpression += numList[i] + ', ';
             }
         }
-        //this.foldExpression += "]\n";
+        this.foldExpression += "]\n";
         this.foldExpression += "val x = myFold (myList, " + xVal + ", " +  yVal + ")</pre>";
 
         return getIntegerAnswer(numList, xVal, yVal);
@@ -316,7 +325,7 @@ FoldModel.prototype.evalFoldExpression = function() {
         var logicOp = getLogicSymbol(questionType);
 
         this.foldExpression += "fun myFold (xs, l) =\n";
-        this.foldExpression += "    fold((fn (x,y) => x andalso String.size y " + logicOp + " l), true, xs)\n";
+        this.foldExpression += "    fold((fn (x,y) => x andalso String.size y " + logicOp + " l), true, xs)\n\n";
         this.foldExpression += "val myList = [";
 
         for (var i = 0; i < strList.length; i++) {
@@ -331,12 +340,12 @@ FoldModel.prototype.evalFoldExpression = function() {
         return getStringAnswer(strList, xVal, logicOp);
 
     } else { // boolean question
-        var numList = numberListGenerator();
+        var numList = numberListGenerator(6);
         var xVal = getRandomInt(3, 7);
         var logicOp = getLogicSymbol(questionType);
 
         this.foldExpression += "fun myFold (xs, l) =\n";
-        this.foldExpression += "    fold((fn (x,y) => x andalso y "+ logicOp + " l), true, xs)\n";
+        this.foldExpression += "    fold((fn (x,y) => x andalso y "+ logicOp + " l), true, xs)\n\n";
         this.foldExpression += "val myList = [";
 
         for (var i = 0; i < numList.length; i++) {

@@ -1,6 +1,6 @@
 /*
  * Tyler Deans
- * March 26, 2016
+ * April 11, 2016
  * questionbankmodel.js
  */
 
@@ -71,7 +71,14 @@ QuestionBankModel.prototype.masteryAchieved = function() {
 
 
 QuestionBankModel.prototype.checkAnswer = function(studentAnswer) {
+    var studentAnswerInt = parseInt(studentAnswer, 10);
+    for (var i = 0; i < this.answers.length; i++) {
+        if (this.answers[i] === studentAnswerInt) {
+            return true;
+        }
+    }
 
+    return false;
 }
 
 /*
@@ -81,11 +88,11 @@ QuestionBankModel.prototype.createNewQuestions = function() {
     // Each question template is an array holding either strings
     // or executable commands stored as strings.
     this.questions = [
-        ["What does this ML code evaluate to?"],
-        ["What does this ML code evaluate to?"],
-        ["What does this ML code evaluate to?"],
-        ["What does this ML code evaluate to?"],
-        ["What does this ML code evaluate to?"]
+        ["What does the ML code above evaluate to?"],
+        ["What does the ML code above evaluate to?"],
+        ["What does the ML code above evaluate to?"],
+        ["What does the ML code above evaluate to?"],
+        ["What does the ML code above evaluate to?"]
     ];
     // the question index is used to rotate through the questions
     this.questionIndex = 0;
@@ -129,20 +136,17 @@ QuestionBankModel.prototype.setAnswers = function(_fold) {
     // Set the answer(s) to the question indicated by questionIndex.
 
     if (this.questionIndex == 0) {
-        /* puts the answer of the question (which is a list) into
-         * this.answers array
-        */
-        this.answers = _fold.evalFoldExpression();
+        this.answers.push(_fold.evalFoldExpression());
 
     } else if (this.questionIndex == 1) {
-        this.answers = _fold.evalFoldExpression();
+        this.answers.push(_fold.evalFoldExpression());
 
     } else if (this.questionIndex == 2) {
-        this.answers = _fold.evalFoldExpression();
+        this.answers.push(_fold.evalFoldExpression());
 
     } else if (this.questionIndex == 3) {
-        this.answers = _fold.evalFoldExpression();
+        this.answers.push(_fold.evalFoldExpression());
     } else {
-        this.answers = _fold.evalFoldExpression();
+        this.answers.push(_fold.evalFoldExpression());
     }
 }

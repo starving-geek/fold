@@ -2,7 +2,7 @@
  * main.js
  * Rich Simpson
  * Tyler Deans
- * March 36, 2016
+ * April 8, 2016
  * This code implements a mastery-based exercise on graph
  * theory for integration with Smart Sparrow.
  *
@@ -23,28 +23,27 @@ function SimView(_controller) {
     // create the question bank view - where questions and answer history are
     // displayed
     this.questionBankView = new QuestionBankView(this);
-    // creates the map view
-    this.mapView = new MapView(this);
+    // creates the fold view
+    this.foldView = new FoldView(this);
 }
 
 
 SimView.prototype.setupControls = function() {
     $("#btnStart").click(function() {
-     // finish initializing the app
-     simController.initializeController();
-     // Tyler Deans
-     /* The text area, submit and next question buttons
-     * remain hidden until the start app button is clicked.
-     */
-     $("#txtAnswer").show();
-     $("#historyText").show();
-     $("#btnNextQuestion").show();
-     $("#btnSubmit").show();
-     $("#questionType").show();
-     // hide start button after being clicked
-     $("#btnStart").hide();
-     // enable submit button
-     $("#btnSubmit").prop('disabled', false);
+        // finish initializing the app
+        simController.initializeController();
+        /* The text area, submit and next question buttons
+         * remain hidden until the start app button is clicked.
+         */
+        $("#txtAnswer").show();
+        $("#historyText").show();
+        $("#btnNextQuestion").show();
+        $("#btnSubmit").show();
+        $("#questionType").show();
+        // hide start button after being clicked
+        $("#btnStart").hide();
+        // enable submit button
+        $("#btnSubmit").prop('disabled', false);
     });
     // add event handler for submit button
     $("#btnSubmit").click(function() {
@@ -61,34 +60,8 @@ SimView.prototype.setupControls = function() {
             // give them feedback
             $("#txtFeedback").html("Right. The answer is " + studentAnswer);
         } else {
-            // prints the array
-            // if the array contains strings it prints the double quotes
-            var answerArrayString = "";
-            var answer = simController.simModel.questionBank.answers;
-            /*
-             * Puts the elements in a string
-            */
-            for (var i = 0; i < answer.length; i++) {
-                // if the correct answer is an array of strings
-                if (typeof answer[i] === 'string') {
-                    // if it is the last element print the string without the comma
-                    if (i == (answer.length - 1)) {
-                        answerArrayString += '"' + answer[i] + '"';
-                    } else { // otherwise print the string with the comma
-                        answerArrayString += '"' + answer[i] + '", ';
-                    }
-                } else { // if the correct answer is an array of numbers
-                    // if it is the last element print the string without the comma
-                    if (i == (answer.length - 1)) {
-                        answerArrayString += answer[i];
-                    } else { // otherwise print the string with the comma
-                        answerArrayString += answer[i] + ', ';
-                    }
-                }
-
-            }
             // give them feedback
-            $("#txtFeedback").html("That is incorrect. The correct answer is [" + answerArrayString + "]");
+            $("#txtFeedback").html("That is incorrect. The correct answer is " + simController.simModel.questionBank.answers[0]);
         }
         // has mastery been demonstrated?
         if (simController.simModel.questionBank.masteryAchieved()) {
@@ -128,7 +101,7 @@ SimView.prototype.setupControls = function() {
         // clear the feedback from the last question
         $("#txtFeedback").html('');
         // clear the fringe
-        $("#foldDiv").html('');
+        $("#datatypeDiv").html('');
         // pass off to the controller to create and display a
         // new let expression and new question
         simController.setupDisplay();

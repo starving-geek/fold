@@ -14,7 +14,7 @@ function FoldView(_simView) {
 	draws expressions for the option view
 */
 
-foldView.prototype.drawFoldExpression = function(_fold) {
+FoldView.prototype.drawFoldExpression = function(_fold) {
 
-    $('#foldDiv').append(_fold.foldExpressionString);
+    $('#foldDiv').append(_fold.foldExpression);
 }
