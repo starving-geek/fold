@@ -71,9 +71,9 @@ QuestionBankModel.prototype.masteryAchieved = function() {
 
 
 QuestionBankModel.prototype.checkAnswer = function(studentAnswer) {
-    var studentAnswerInt = parseInt(studentAnswer, 10);
+
     for (var i = 0; i < this.answers.length; i++) {
-        if (this.answers[i] === studentAnswerInt) {
+        if (this.answers[i] === studentAnswer) {
             return true;
         }
     }

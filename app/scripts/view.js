@@ -2,7 +2,7 @@
  * main.js
  * Rich Simpson
  * Tyler Deans
- * April 8, 2016
+ * April 11, 2016
  * This code implements a mastery-based exercise on graph
  * theory for integration with Smart Sparrow.
  *
@@ -100,10 +100,10 @@ SimView.prototype.setupControls = function() {
         $("#txtAnswer").val('');
         // clear the feedback from the last question
         $("#txtFeedback").html('');
-        // clear the fringe
-        $("#datatypeDiv").html('');
+        // clear the fold div
+        $("#foldDiv").html('');
         // pass off to the controller to create and display a
-        // new let expression and new question
+        // new fold expression and new question
         simController.setupDisplay();
     });
 }

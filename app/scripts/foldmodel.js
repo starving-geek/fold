@@ -362,3 +362,7 @@ FoldModel.prototype.evalFoldExpression = function() {
 
 }
 
+FoldModel.prototype.getFoldExpression = function() {
+    return this.foldExpression;
+}
+

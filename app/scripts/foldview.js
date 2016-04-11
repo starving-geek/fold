@@ -1,6 +1,6 @@
 /*
  * Tyler Deans
- * March 17, 2016
+ * April 11, 2016
  */
 
 
@@ -11,10 +11,10 @@ function FoldView(_simView) {
 
 
 /*
-	draws expressions for the option view
+	draws expressions for the fold view
 */
 
 FoldView.prototype.drawFoldExpression = function(_fold) {
 
-    $('#foldDiv').append(_fold.foldExpression);
+    $('#foldDiv').append(_fold.getFoldExpression());
 }
