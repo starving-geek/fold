@@ -71,9 +71,11 @@ QuestionBankModel.prototype.masteryAchieved = function() {
 
 
 QuestionBankModel.prototype.checkAnswer = function(studentAnswer) {
-
+    if (studentAnswer == "") {
+        return false;
+    }
     for (var i = 0; i < this.answers.length; i++) {
-        if (this.answers[i] === studentAnswer) {
+        if (this.answers[i] == studentAnswer) {
             return true;
         }
     }

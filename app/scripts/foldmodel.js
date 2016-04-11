@@ -191,33 +191,43 @@ function isStrEqual(str, len) {
 }
 
 function getStringAnswer(list, len, logicOp) {
-    var accumulator = 0;
+    var logicVal;
 
     for (var i = 0; i < list.length; i++) {
         if (logicOp === "<") {
             if (isStrLessThan(list[i], len)) {
-                accumulator++;
+                logicVal = true;
+            } else {
+                logicVal = false;
             }
         } else if (logicOp === "<=") {
             if (isStrLessThanEqual(list[i], len)) {
-                accumulator++;
+                logicVal = true;
+            } else {
+                logicVal = false;
             }
         } else if (logicOp === ">") {
             if (isStrGreaterThan(list[i], len)) {
-                accumulator++;
+                logicVal = true;
+            } else {
+                logicVal = false;
             }
         } else if (logicOp === ">=") {
             if (isStrGreaterThanEqual(list[i], len)) {
-                accumulator++;
+                logicVal = true;
+            } else {
+                logicVal = false;
             }
         } else {
             if (isStrEqual(list[i], len)) {
-                accumulator++;
+                logicVal = true;
+            } else {
+                logicVal = false;
             }
         }
     }
 
-    return accumulator;
+    return logicVal;
 }
 
 function isNumLessThan(num, l) {
@@ -317,7 +327,7 @@ FoldModel.prototype.evalFoldExpression = function() {
         this.foldExpression += "]\n";
         this.foldExpression += "val x = myFold (myList, " + xVal + ", " +  yVal + ")</pre>";
 
-        return getIntegerAnswer(numList, xVal, yVal);
+        return getIntegerAnswer(numList, xVal, yVal, logicOp1, logicOp2);
 
     } else if (questionType === "string") {
         var strList = stringListGenerator();
