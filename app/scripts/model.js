@@ -34,7 +34,7 @@ function getRandomInt(min, max) {
         while(randNum === number) {
             number = Math.floor(Math.random() * (max - min)) + min;
         }
-
+        randNum = number;
         return number;
     }
 

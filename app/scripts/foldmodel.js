@@ -129,7 +129,7 @@ function isNumInRange(num, loVal, hiVal) {
 }
 
 function isNumNotInRangeEqual(num, loVal, hiVal) {
-    if (num <= loVal && num >= hiVal) {
+    if (num <= loVal || num >= hiVal) {
         return true;
     } else {
         return false;
@@ -137,7 +137,7 @@ function isNumNotInRangeEqual(num, loVal, hiVal) {
 }
 
 function isNumNotInRange(num, loVal, hiVal) {
-    if (num < loVal && num > hiVal) {
+    if (num < loVal || num > hiVal) {
         return true;
     } else {
         return false;
@@ -251,38 +251,38 @@ function isNumEqual(num, l) {
 }
 
 function getBooleanAnswer(list, len, logicOp) {
-    var accumulator = 0;
+    var logicVal;
 
     for (var i = 0; i < list.length; i++) {
         if (logicOp === "<") {
             if (isNumLessThan(list[i], len)) {
-                accumulator++;
+                logicVal = true;
             } else {
-                accumulator += 0;
+                return false;
             }
 
         } else if (logicOp === "<=") {
             if (isNumLessThanEqual(list[i], len)) {
-                accumulator++;
+                logicVal = true;
             } else {
-                accumulator += 0;
+                return false;
             }
         } else if (logicOp === ">") {
             if (isNumGreaterThan(list[i], len)) {
-                accumulator++;
+                logicVal = true;
             } else {
-                accumulator += 0;
+                return false;
             }
         } else {
             if (isNumGreaterThanEqual(list[i], len)) {
-                accumulator++;
+                logicVal = true;
             } else {
-                accumulator += 0;
+                return false;
             }
         }
     }
 
-    return accumulator;
+    return logicVal;
 }
 
 /*
@@ -312,8 +312,13 @@ FoldModel.prototype.evalFoldExpression = function() {
         var logicOp2 = getSecondSymbol(logicOp1);
 
         this.foldExpression += "fun myFold (xs, lo, hi) =\n";
-        // create a random generator for the logical symbol
-        this.foldExpression += "    fold ((fn (x,y) => x + (if y " + logicOp1 + " lo andalso y " + logicOp2 + " hi then 1 else 0)), 0, xs)\n\n";
+
+        if ((logicOp1 === "<=" && logicOp2 === ">=") || (logicOp1 === "<" && logicOp2 === ">")) {
+            this.foldExpression += "    fold ((fn (x,y) => x + (if y " + logicOp1 + " lo orelse y " + logicOp2 + " hi then 1 else 0)), 0, xs)\n\n";
+        } else {
+            this.foldExpression += "    fold ((fn (x,y) => x + (if y " + logicOp1 + " lo andalso y " + logicOp2 + " hi then 1 else 0)), 0, xs)\n\n";
+        }
+
         this.foldExpression += "val myList = [";
 
         for (var i = 0; i < numList.length; i++) {
